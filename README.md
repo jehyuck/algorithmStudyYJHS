@@ -1,1 +1,1 @@
-# algorithmStudyYJHS
+# algorithmStudyYJHS.
