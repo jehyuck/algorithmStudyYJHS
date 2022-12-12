@@ -1,8 +1,5 @@
 import sys
-
-
 # input = sys.stdin.readline
-
 
 N = int(input())
 INF = 17000001
@@ -16,44 +13,44 @@ for i in range(N):
 dp = [[0] * N for _ in range(1 << N)]
 
 
-#외판원 순회 문제
-
-def TSP(visit, now):
+# 외판원 순회 문제
+def tsp(visit, now):
     global adj, dp, allVisit, INF
 
-    #현재 위치를 방문한다
+    # 현재 위치를 방문한다
     visit |= 1 << now
 
-    #visit가 전체 방문한 경우 출발도시로 돌아간다. 못가면 INF 반환
+    # visit가 전체 방문한 경우 출발도시로 돌아간다. 못가면 INF 반환
     if visit == allVisit:
         # print(now ,'--->',bin(visit), allVisit,'-------------')
         if adj[now][0] != INF:
             return adj[now][0]
         return INF
-    #현재 방문한적 있는 노드면은 그 값을 바로 리턴한다.
+
+    # 현재 방문한적 있는 노드면은 그 값을 바로 리턴한다.
     if dp[visit][now] != 0:
         return dp[visit][now]
 
-    #방문한적 없는 상태면 진행
+    # 방문한적 없는 상태면 진행
     dp[visit][now] = INF
-    #아니면은 방문 할 수 있는 곳 중에 최선책을 찾아낸다.
+    # 아니면은 방문 할 수 있는 곳 중에 최선책을 찾아낸다.
     for i in range(N):
         temp = 0
-        #방문 할 수 있으면
+        # 방문 할 수 있으면
         if i != now and visit & (1 << i) == 0 and adj[now][i] != INF:
-            #값을 계산하고
-            temp = TSP(visit, i) + adj[now][i]
+            # 값을 계산하고
+            temp = tsp(visit, i) + adj[now][i]
 
-            #최선책일 경우 갱신한다.
+            # 최선책일 경우 갱신한다.
             if temp < dp[visit][now]:
                 # print(now, '->', (i, visit), temp)
                 dp[visit][now] = temp
 
-    #이때 구한 최선책을 return 한다.
+    # 이때 구한 최선책을 return 한다.
     return dp[visit][now]
 
 
-print(TSP(0,0))
+print(tsp(0, 0))
 
 '''
 예외 케이스 왜??
